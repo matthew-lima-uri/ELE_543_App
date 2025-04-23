@@ -15,6 +15,12 @@ namespace ELE_543_App
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            // Create the local directory if it does not exist
+            if (!Directory.Exists(localFilePath))
+            {
+                Directory.CreateDirectory(localFilePath);
+            }
+
             // Load the current directory, and make one if it doesn't exist
             localDirectory = new DirectoryInfo(localFilePath);
 
@@ -24,12 +30,14 @@ namespace ELE_543_App
 
             foreach (DirectoryInfo dir in localDirectory.GetDirectories())
             {
-                localFileTree.Nodes.Add(new TreeNode(dir.Name));
+                TreeNode firstNode = new TreeNode(dir.Name);
+                rootNode.Nodes.Add(firstNode);
+                AddRecursiveDirectory(dir, firstNode);
             }
 
             foreach (FileInfo file in localDirectory.GetFiles())
             {
-                localFileTree.Nodes.Add(new TreeNode(file.Name + " ... " + file.Length / (1024*1024) + "MiB"));
+                localFileTree.Nodes.Add(new TreeNode(file.Name + " ... " + file.Length / 1024f + "KiB"));
             }
 
             statusBox.Text += "Program loaded successfully.\n";
@@ -61,14 +69,62 @@ namespace ELE_543_App
             {
                 sFTP = new SFTP_Client(username, password, host);
             }
-            catch
+            catch (Exception ex)
             {
-                statusBox.Text += "Failed to connect to the SFTP Server...\n";
+                statusBox.Text += "Error creating SFTP client: " + ex.Message + "\n";
+                sFTP.Disconnect();
+                return; // Ensure we exit if the client creation fails
             }
 
-            DirectoryInfo files = sFTP.GetFileDirectory();
-            foreach (FileInfo file in files.GetFiles())
+            try
             {
+                // Get the root node from the SFTP client
+                TreeNode? remoteRootNode = sFTP.GetTopLevelDirectory();
+
+                // Check for null before adding to the tree
+                if (remoteRootNode != null)
+                {
+                    remoteFileTree.Nodes.Add(remoteRootNode);
+                    remoteRootNode.Expand();
+                }
+                else
+                {
+                    statusBox.Text += "Remote directory is empty or could not be retrieved.\n";
+                }
+            }
+            catch (Exception ex)
+            {
+                statusBox.Text += "Error populating remote directory: " + ex.Message + "\n";
+                sFTP.Disconnect();
+                return;
+            }
+        }
+
+        private void AddRecursiveDirectory(DirectoryInfo directory, TreeNode parentNode)
+        {
+            foreach (DirectoryInfo dir in directory.GetDirectories())
+            {
+                TreeNode newNode = new TreeNode(dir.Name);
+                parentNode.Nodes.Add(newNode);
+                AddRecursiveDirectory(dir, newNode);
+            }
+
+            foreach (FileInfo file in directory.GetFiles())
+            {
+                parentNode.Nodes.Add(new TreeNode(file.Name + " ... " + file.Length / 1024f + "KiB"));
+            }
+        }
+
+        private void remoteFileTree_BeforeExpand(object sender, TreeViewCancelEventArgs e)
+        {
+            var node = e.Node;
+            if (node == null) return;
+
+            // if we previously added exactly one “dummy” child (Tag==null), replace it:
+            if (node.Nodes.Count == 1 && node.Nodes[0].Tag == null)
+            {
+                node.Nodes.Clear();
+                sFTP.PopulateNode(ref node);
             }
         }
     }

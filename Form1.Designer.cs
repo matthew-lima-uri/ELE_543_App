@@ -51,6 +51,7 @@
             userNameInput.Name = "userNameInput";
             userNameInput.Size = new Size(174, 23);
             userNameInput.TabIndex = 0;
+            userNameInput.Text = "sftpuser";
             // 
             // userNameLabel
             // 
@@ -114,6 +115,7 @@
             remoteFileTree.Name = "remoteFileTree";
             remoteFileTree.Size = new Size(292, 304);
             remoteFileTree.TabIndex = 7;
+            remoteFileTree.BeforeExpand += remoteFileTree_BeforeExpand;
             // 
             // localFileTree
             // 
