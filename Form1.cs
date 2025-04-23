@@ -5,6 +5,7 @@ namespace ELE_543_App
         string localFilePath = "C:\\MattSFTP";
         SFTP_Client sFTP;
         DirectoryInfo localDirectory;
+        TreeNode rootNode;
         string localPath;
 
         public Form1()
@@ -17,9 +18,18 @@ namespace ELE_543_App
             // Load the current directory, and make one if it doesn't exist
             localDirectory = new DirectoryInfo(localFilePath);
 
+            rootNode = new TreeNode();
+            rootNode.Text = localDirectory.FullName;
+            localFileTree.Nodes.Add(rootNode);
+
+            foreach (DirectoryInfo dir in localDirectory.GetDirectories())
+            {
+                localFileTree.Nodes.Add(new TreeNode(dir.Name));
+            }
+
             foreach (FileInfo file in localDirectory.GetFiles())
             {
-                
+                localFileTree.Nodes.Add(new TreeNode(file.Name + " ... " + file.Length / (1024*1024) + "MiB"));
             }
 
             statusBox.Text += "Program loaded successfully.\n";
@@ -56,9 +66,8 @@ namespace ELE_543_App
                 statusBox.Text += "Failed to connect to the SFTP Server...\n";
             }
 
-            FileDirectory files = sFTP.GetFileDirectory();
-            remoteFileTree.TopNode = new TreeNode(files.directoryName);
-            foreach (FileDirectory dir in files.folders)
+            DirectoryInfo files = sFTP.GetFileDirectory();
+            foreach (FileInfo file in files.GetFiles())
             {
             }
         }
