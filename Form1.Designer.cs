@@ -43,20 +43,24 @@
             uploadFileButton = new Button();
             hostLabel = new Label();
             hostInput = new TextBox();
+            progressBar1 = new ProgressBar();
+            progressLabel = new Label();
+            connectedLabel = new Label();
+            exitButton = new Button();
             SuspendLayout();
             // 
             // userNameInput
             // 
-            userNameInput.Location = new Point(12, 87);
+            userNameInput.Location = new Point(14, 76);
             userNameInput.Name = "userNameInput";
-            userNameInput.Size = new Size(174, 23);
+            userNameInput.Size = new Size(237, 23);
             userNameInput.TabIndex = 0;
             userNameInput.Text = "sftpuser";
             // 
             // userNameLabel
             // 
             userNameLabel.AutoSize = true;
-            userNameLabel.Location = new Point(69, 69);
+            userNameLabel.Location = new Point(14, 58);
             userNameLabel.Name = "userNameLabel";
             userNameLabel.Size = new Size(60, 15);
             userNameLabel.TabIndex = 1;
@@ -66,7 +70,7 @@
             // passwordLabel
             // 
             passwordLabel.AutoSize = true;
-            passwordLabel.Location = new Point(69, 113);
+            passwordLabel.Location = new Point(14, 102);
             passwordLabel.Name = "passwordLabel";
             passwordLabel.Size = new Size(57, 15);
             passwordLabel.TabIndex = 3;
@@ -75,18 +79,18 @@
             // 
             // passwordInput
             // 
-            passwordInput.Location = new Point(12, 131);
+            passwordInput.Location = new Point(14, 120);
             passwordInput.MaxLength = 16;
             passwordInput.Name = "passwordInput";
             passwordInput.PasswordChar = '*';
-            passwordInput.Size = new Size(174, 23);
+            passwordInput.Size = new Size(237, 23);
             passwordInput.TabIndex = 2;
             // 
             // connectButton
             // 
-            connectButton.Location = new Point(12, 160);
+            connectButton.Location = new Point(14, 149);
             connectButton.Name = "connectButton";
-            connectButton.Size = new Size(174, 23);
+            connectButton.Size = new Size(237, 23);
             connectButton.TabIndex = 4;
             connectButton.Text = "Connect";
             connectButton.UseVisualStyleBackColor = true;
@@ -94,16 +98,16 @@
             // 
             // statusBox
             // 
-            statusBox.Location = new Point(12, 342);
+            statusBox.Location = new Point(14, 436);
             statusBox.Name = "statusBox";
-            statusBox.Size = new Size(776, 96);
+            statusBox.Size = new Size(1127, 173);
             statusBox.TabIndex = 5;
             statusBox.Text = "";
             // 
             // statusLabel
             // 
             statusLabel.AutoSize = true;
-            statusLabel.Location = new Point(12, 324);
+            statusLabel.Location = new Point(12, 418);
             statusLabel.Name = "statusLabel";
             statusLabel.Size = new Size(93, 15);
             statusLabel.TabIndex = 6;
@@ -111,23 +115,23 @@
             // 
             // remoteFileTree
             // 
-            remoteFileTree.Location = new Point(496, 32);
+            remoteFileTree.Location = new Point(694, 32);
             remoteFileTree.Name = "remoteFileTree";
-            remoteFileTree.Size = new Size(292, 304);
+            remoteFileTree.Size = new Size(447, 398);
             remoteFileTree.TabIndex = 7;
             remoteFileTree.BeforeExpand += remoteFileTree_BeforeExpand;
             // 
             // localFileTree
             // 
-            localFileTree.Location = new Point(198, 32);
+            localFileTree.Location = new Point(257, 32);
             localFileTree.Name = "localFileTree";
-            localFileTree.Size = new Size(292, 306);
+            localFileTree.Size = new Size(431, 398);
             localFileTree.TabIndex = 8;
             // 
             // localFileLabel
             // 
             localFileLabel.AutoSize = true;
-            localFileLabel.Location = new Point(316, 14);
+            localFileLabel.Location = new Point(257, 14);
             localFileLabel.Name = "localFileLabel";
             localFileLabel.Size = new Size(61, 15);
             localFileLabel.TabIndex = 9;
@@ -137,7 +141,7 @@
             // remoteFileLabel
             // 
             remoteFileLabel.AutoSize = true;
-            remoteFileLabel.Location = new Point(605, 14);
+            remoteFileLabel.Location = new Point(694, 14);
             remoteFileLabel.Name = "remoteFileLabel";
             remoteFileLabel.Size = new Size(74, 15);
             remoteFileLabel.TabIndex = 10;
@@ -146,26 +150,28 @@
             // 
             // downloadButton
             // 
-            downloadButton.Location = new Point(12, 214);
+            downloadButton.Location = new Point(12, 252);
             downloadButton.Name = "downloadButton";
-            downloadButton.Size = new Size(174, 23);
+            downloadButton.Size = new Size(239, 44);
             downloadButton.TabIndex = 11;
             downloadButton.Text = "Download Files";
             downloadButton.UseVisualStyleBackColor = true;
+            downloadButton.Click += downloadButton_Click;
             // 
             // uploadFileButton
             // 
-            uploadFileButton.Location = new Point(12, 243);
+            uploadFileButton.Location = new Point(12, 302);
             uploadFileButton.Name = "uploadFileButton";
-            uploadFileButton.Size = new Size(174, 23);
+            uploadFileButton.Size = new Size(239, 46);
             uploadFileButton.TabIndex = 12;
             uploadFileButton.Text = "Upload Files";
             uploadFileButton.UseVisualStyleBackColor = true;
+            uploadFileButton.Click += uploadButton_Click;
             // 
             // hostLabel
             // 
             hostLabel.AutoSize = true;
-            hostLabel.Location = new Point(82, 25);
+            hostLabel.Location = new Point(14, 14);
             hostLabel.Name = "hostLabel";
             hostLabel.Size = new Size(32, 15);
             hostLabel.TabIndex = 14;
@@ -174,16 +180,58 @@
             // 
             // hostInput
             // 
-            hostInput.Location = new Point(12, 43);
+            hostInput.Location = new Point(14, 32);
             hostInput.Name = "hostInput";
-            hostInput.Size = new Size(174, 23);
+            hostInput.Size = new Size(237, 23);
             hostInput.TabIndex = 13;
+            hostInput.Text = "nas.matthew-lima.com";
+            // 
+            // progressBar1
+            // 
+            progressBar1.Location = new Point(14, 630);
+            progressBar1.Name = "progressBar1";
+            progressBar1.Size = new Size(1127, 23);
+            progressBar1.TabIndex = 15;
+            // 
+            // progressLabel
+            // 
+            progressLabel.AutoSize = true;
+            progressLabel.Location = new Point(14, 612);
+            progressLabel.Name = "progressLabel";
+            progressLabel.Size = new Size(72, 15);
+            progressLabel.TabIndex = 16;
+            progressLabel.Text = "Progress Bar";
+            // 
+            // connectedLabel
+            // 
+            connectedLabel.AutoSize = true;
+            connectedLabel.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
+            connectedLabel.Location = new Point(43, 207);
+            connectedLabel.Name = "connectedLabel";
+            connectedLabel.Size = new Size(180, 30);
+            connectedLabel.TabIndex = 17;
+            connectedLabel.Text = "DISCONNECTED";
+            connectedLabel.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // exitButton
+            // 
+            exitButton.Location = new Point(14, 354);
+            exitButton.Name = "exitButton";
+            exitButton.Size = new Size(239, 44);
+            exitButton.TabIndex = 18;
+            exitButton.Text = "Exit";
+            exitButton.UseVisualStyleBackColor = true;
+            exitButton.Click += exitButton_Click;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(1153, 665);
+            Controls.Add(exitButton);
+            Controls.Add(connectedLabel);
+            Controls.Add(progressLabel);
+            Controls.Add(progressBar1);
             Controls.Add(hostLabel);
             Controls.Add(hostInput);
             Controls.Add(uploadFileButton);
@@ -201,6 +249,7 @@
             Controls.Add(userNameInput);
             Name = "Form1";
             Text = "Matt's NAS";
+            FormClosing += Form1_FormClosing;
             Load += Form1_Load;
             ResumeLayout(false);
             PerformLayout();
@@ -224,5 +273,9 @@
         private Label hostLabel;
         private Label label2;
         private TextBox hostInput;
+        private ProgressBar progressBar1;
+        private Label progressLabel;
+        private Label connectedLabel;
+        private Button exitButton;
     }
 }
