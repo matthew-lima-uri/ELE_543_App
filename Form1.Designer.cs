@@ -204,11 +204,10 @@
             // 
             // connectedLabel
             // 
-            connectedLabel.AutoSize = true;
             connectedLabel.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
-            connectedLabel.Location = new Point(43, 207);
+            connectedLabel.Location = new Point(14, 175);
             connectedLabel.Name = "connectedLabel";
-            connectedLabel.Size = new Size(180, 30);
+            connectedLabel.Size = new Size(237, 74);
             connectedLabel.TabIndex = 17;
             connectedLabel.Text = "DISCONNECTED";
             connectedLabel.TextAlign = ContentAlignment.MiddleCenter;

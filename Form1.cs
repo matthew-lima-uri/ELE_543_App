@@ -107,7 +107,8 @@ namespace ELE_543_App
                 connectedLabel.Text = "Disconnected";
                 return;
             }
-            connectedLabel.Text = "CONNECTED";
+
+            if (sFTP != null) connectedLabel.Text = "CONNECTED";
         }
 
         private void AddRecursiveDirectory(DirectoryInfo directory, TreeNode parentNode)
